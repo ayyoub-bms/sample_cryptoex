@@ -1,0 +1,35 @@
+live:
+  bybit:
+    key: BYBIT_API_KEY
+    secret: BYBIT_API_SECRET
+    class_name: BybitLive
+    http_domain: bybit
+    http_subdomain: api
+    http_tld: com
+    ws_domain: bybit
+    ws_subdomain: stream
+    ws_tld: com
+
+testnet:
+  bybit:
+    key: BYBIT_TESTNET_API_KEY
+    secret: BYBIT_TESTNET_API_SECRET
+    class_name: BybitTestnet
+    http_domain: bybit
+    http_subdomain: api-testnet
+    http_tld: com
+    ws_domain: bybit
+    ws_subdomain: stream-testnet
+    ws_tld: com
+
+demo:
+  bybit:
+    key: BYBIT_DEMO_API_KEY
+    secret: BYBIT_DEMO_API_SECRET
+    class_name: BybitDemo
+    http_domain: bybit
+    http_subdomain: api-demo
+    http_tld: com
+    ws_domain: bybit
+    ws_subdomain: stream-demo
+    ws_tld: com

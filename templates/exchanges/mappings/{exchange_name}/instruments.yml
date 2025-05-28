@@ -1,0 +1,14 @@
+instruments:
+
+  INSTRUMENTS:
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+      linear:
+      inverse:
+      spot:
+      option:

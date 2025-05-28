@@ -1,0 +1,156 @@
+instruments:
+
+  INSTRUMENTS:
+
+    required:
+      - category
+
+    inputs:
+      category: category
+      symbol: symbol
+      status: status
+      base_coin: baseCoin
+      limit: limit
+      cursor: cursor
+
+    outputs:
+      linear: 
+        category: category
+        nextPageCursor: next_page_cursor
+        list: instruments
+        symbol: symbol
+        contractType: contract_type
+        status: status
+        baseCoin: base_coin
+        quoteCoin: quote_coin
+        launchTime: launch_time
+        deliveryTime: delivery_time
+        deliveryFeeRate: delivery_fee_rate
+        priceScale: price_scale
+        leverageFilter: leverage_details
+        minLeverage: min_leverage
+        maxLeverage: max_leverage
+        leverageStep: leverage_step
+        priceFilter: price_details
+        minPrice: min_price
+        maxPrice: max_price
+        tickSize: tick_size
+        lotSizeFilter: lot_size_details
+        minNotionalValue: min_notional_value
+        maxOrderQty: max_order_quantity
+        maxMktOrderQty: max_mkt_order_quantity
+        minOrderQty: min_order_quantity
+        qtyStep: quantity_step
+        postOnlyMaxOrderQty: post_only_max_order_quantity
+        unifiedMarginTrade: unified_margin_trade
+        fundingInterval: funding_interval
+        settleCoin: settle_coin
+        copyTrading: copy_trading
+        upperFundingRate: upper_funding_rate
+        lowerFundingRate: lower_funding_rate
+        riskParameters: risk_parameters
+        priceLimitRatioX: price_limit_ratio_x
+        priceLimitRatioY: price_limit_ratio_y
+        isPreListing: is_pre_listing
+        preListingInfo: pre_listing_info
+        curAuctionPhase: cur_auction_phase
+        phases: phases
+        phase: phase
+        startTime: start_time
+        endTime: end_time
+        auctionFeeInfo: auction_fee_info
+        auctionFeeRate: auction_fee_rate
+        takerFeeRate: taker_fee_rate
+        makerFeeRate: maker_fee_rate
+      inverse:
+        category: category
+        nextPageCursor: next_page_cursor
+        list: instruments
+        symbol: symbol
+        contractType: contract_type
+        status: status
+        baseCoin: base_coin
+        quoteCoin: quote_coin
+        launchTime: launch_time
+        deliveryTime: delivery_time
+        deliveryFeeRate: delivery_fee_rate
+        priceScale: price_scale
+        leverageFilter: leverage_details
+        minLeverage: min_leverage
+        maxLeverage: max_leverage
+        leverageStep: leverage_step
+        priceFilter: price_details
+        minPrice: min_price
+        maxPrice: max_price
+        tickSize: tick_size
+        lotSizeFilter: lot_size_details
+        minNotionalValue: min_notional_value
+        maxOrderQty: max_order_quantity
+        maxMktOrderQty: max_mkt_order_quantity
+        minOrderQty: min_order_quantity
+        qtyStep: quantity_step
+        postOnlyMaxOrderQty: post_only_max_order_quantity
+        unifiedMarginTrade: unified_margin_trade
+        fundingInterval: funding_interval
+        settleCoin: settle_coin
+        copyTrading: copy_trading
+        upperFundingRate: upper_funding_rate
+        lowerFundingRate: lower_funding_rate
+        riskParameters: risk_parameters
+        priceLimitRatioX: price_limit_ratio_x
+        priceLimitRatioY: price_limit_ratio_y
+        isPreListing: is_pre_listing
+        preListingInfo: pre_listing_info
+        curAuctionPhase: cur_auction_phase
+        phases: phases
+        phase: phase
+        startTime: start_time
+        endTime: end_time
+        auctionFeeInfo: auction_fee_info
+        auctionFeeRate: auction_fee_rate
+        takerFeeRate: taker_fee_rate
+        makerFeeRate: maker_fee_rate
+      option: 
+        category: category
+        nextPageCursor: next_page_cursor
+        list: instruments
+        symbol: symbol
+        optionsType: options_type
+        status: status
+        baseCoin: base_coin
+        quoteCoin: quote_coin
+        settleCoin: settle_coin
+        launchTime: launch_time
+        deliveryTime: delivery_time
+        deliveryFeeRate: delivery_fee_rate
+        priceFilter: price_details
+        minPrice: min_price
+        maxPrice: max_price
+        tickSize: tick_size
+        lotSizeFilter: lot_size_details
+        maxOrderQty: max_order_quantity
+        minOrderQty: min_order_quantity
+        qtyStep: quantity_step
+      spot: 
+        category: category
+        list: instruments
+        symbol: symbol
+        baseCoin: base_coin
+        quoteCoin: quote_coin
+        innovation: innovation
+        status: status
+        marginTrading: margin_trading
+        stTag: st_tag
+        lotSizeFilter: lot_size_details
+        basePrecision: base_precision
+        quotePrecision: quote_precision
+        minOrderQty: min_order_quantity
+        maxOrderQty: max_order_quantity
+        minOrderAmt: min_order_amt
+        maxOrderAmt: max_order_amt
+        priceFilter: price_details
+        tickSize: tick_size
+        riskParameters: risk_parameters
+        priceLimitRatioX: price_limit_ratio_x
+        priceLimitRatioY: price_limit_ratio_y
+

@@ -1,0 +1,35 @@
+# endpoint to fetch global account information
+ACCOUNT:
+AMEND_ORDER:
+ANNOUNCEMENTS:
+BATCH_AMEND:
+BATCH_CANCEL:
+BATCH_CREATE:
+CANCEL_ALL_ORDERS:
+CANCEL_ORDER:
+CANDLESTICKS:
+# endpoint to fetch coin information (plateform, address, ...)
+COINS:
+CREATE_ORDER:
+# endpoint to fetch instrument details
+INSTRUMENTS:
+OPEN_ORDERS:
+# endpoint to fetch bid and ask queues
+ORDERBOOK:
+# endpoint to fetch historical orders from the exchange
+ORDER_HISTORY:
+# endpoint to fetch currently held positions
+POSITIONS:
+# endpoint to fetch symbols, last prices, 24h changes etc 
+PRICE_SNAPSHOTS:
+# endpoint to fetch the server time
+SERVER_TIME:
+STOPLOSS:
+TAKEPROFIT:
+TRADING_FEES:
+TRAILINGSTOP:
+WALLET:
+WITHDRAWALS:
+WS_PRIVATE_ENDPOINT:
+WS_PUBLIC_ENDPOINT:
+WS_TRADING_ENDPOINT:

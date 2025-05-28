@@ -1,0 +1,36 @@
+# Announcements
+ANNOUNCEMENTS:  /v5/announcements/index
+# Accounts & positions
+WALLET:   /v5/account/wallet-balance
+WITHDRAWALS:   /v5/account/withdrawal
+TRADING_FEES:   /v5/account/fee-rate
+ACCOUNT:   /v5/account/info
+POSITIONS:   /v5/position/list
+# Server data
+SERVER_TIME:   /v5/market/time
+# Market data
+INSTRUMENTS:   /v5/market/instruments-info
+CANDLESTICKS:   /v5/market/kline
+ORDERBOOK:   /v5/market/orderbook
+PRICE_SNAPSHOTS:   /v5/market/tickers
+# Order management
+CREATE_ORDER:   /v5/order/create
+AMEND_ORDER:   /v5/order/amend
+CANCEL_ORDER:   /v5/order/cancel
+OPEN_ORDERS:   /v5/order/realtime
+CANCEL_ALL_ORDERS:   /v5/order/cancel-all
+BATCH_CREATE:   /v5/order/create-batch
+BATCH_AMEND:   /v5/order/amend-batch
+BATCH_CANCEL:   /v5/order/cancel-batch
+ORDER_HISTORY:   /v5/order/history
+SET_TRADING_STOP:   /v5/position/trading-stop
+# For linear and inverse
+STOPLOSS: /v5/position/trading-stop
+TAKEPROFIT: /v5/position/trading-stop
+TRAILINGSTOP: /v5/position/trading-stop
+
+COINS: /v5/asset/coin/query-info
+
+WS_PUBLIC_ENDPOINT: /v5/public
+WS_PRIVATE_ENDPOINT: /v5/private
+WS_TRADING_ENDPOINT: /v5/trade

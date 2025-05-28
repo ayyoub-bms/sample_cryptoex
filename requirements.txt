@@ -1,0 +1,14 @@
+websockets
+pandas
+python-dotenv
+xlsxwriter
+pyarrow
+openpyxl
+termcolor
+pytest
+jupyterlab
+matplotlib
+numpy
+scikit-learn
+scipy
+pydantic

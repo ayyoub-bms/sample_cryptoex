@@ -1,0 +1,103 @@
+orders:
+  CREATE_ORDER :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  AMEND_ORDER :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+  
+  CANCEL_ORDER :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  CANCEL_ALL_ORDERS :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  BATCH_CREATE :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  BATCH_AMEND :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  BATCH_CANCEL :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  STOPLOSS :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  TAKEPROFIT :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  TRAILINGSTOP:
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  # All the config below is for callbacks of websocket stream
+  execution: 
+    outputs:
+
+  execution_fast: 
+    outputs:
+
+  orders: 
+    outputs:
+
+  wallet: 
+    outputs:

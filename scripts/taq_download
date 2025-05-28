@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Download Orderbook and trades data from Bybit exchange"""
+
+
+import os
+import json
+import time
+import logging
+import argparse
+import asyncio
+
+from pathlib import Path
+from functools import partial
+from datetime import datetime as dt
+from cryptoex.exchanges import available_exchanges
+from cryptoex import settings
+
+
+TODAY = dt.today().strftime("%Y-%m-%d")
+
+
+data_path = settings.DATA_PATH
+logs_path = settings.LOGS_PATH
+
+
+Path(data_path).mkdir(parents=True, exist_ok=True)
+Path(logs_path).mkdir(parents=True, exist_ok=True)
+
+available = {k.__qualname__: k for k in available_exchanges}
+
+logger = logging.getLogger(__name__)
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "-s",
+    "--symbol",
+    action="append",
+    help="Symbol for which you want to get LOB and trade data",
+)
+
+parser.add_argument(
+    "-c",
+    "--category",
+    choices=("spot", "linear", "inverse", "option"),
+    help="Symbol for which you want to get LOB and trade data",
+)
+
+parser.add_argument("-t", "--testnet", action="store_true", help="Use testnet or not")
+
+parser.add_argument(
+    "-e",
+    "--exchange",
+    action="append",
+    choices=available.keys(),
+    help="The exchange you want to target",
+)
+
+
+def dump_data(content, exchange, symbol, kind):
+    current_hour = dt.now().hour
+    next_hour = current_hour + 1
+    current_hour = str(current_hour) if current_hour > 9 else "0" + str(current_hour)
+    next_hour = str(next_hour) if next_hour > 9 else "0" + str(next_hour)
+
+    path = os.path.join(
+        data_path,
+        exchange,
+        dt.today().strftime("%Y-%m-%d"),
+        kind,
+        f"{symbol}-{current_hour}-{next_hour}.txt",
+    )
+
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+
+    with open(path, "a") as f:
+        f.writelines(json.dumps(content) + "\n")
+
+
+async def subscribe_to_exchange(exchange, category, symbols):
+    name = exchange.name
+
+    logger.info(f"Working on {name} -- Symbols: {symbols}")
+
+    for symbol in symbols:
+        logger.info(
+            f"[{TODAY}] Starting streaming -- Symbol={symbol} -- Exchange = {name}"
+        )
+        await exchange.stream_orderbook(
+            category=category,
+            symbol=symbol,
+            depth=50,
+            callback=partial(dump_data, exchange=name, symbol=symbol, kind="QUOTES"),
+            handle_delta=False
+        )
+        await exchange.stream_trades(
+            category=category,
+            symbol=symbol,
+            callback=partial(dump_data, exchange=name, symbol=symbol, kind="TRADES"),
+        )
+
+
+async def run(exchanges):
+    for exchange in exchanges:
+        exchange = available[exchange]()
+        await subscribe_to_exchange(exchange, category, symbols)
+        while True:
+            await asyncio.sleep(1)
+
+if __name__ == "__main__":
+
+    args = parser.parse_args()
+    symbols = args.symbol
+    exchanges = args.exchange
+    category = args.category
+
+    if category is None:
+        parser.error(f"Missing category for {symbols=}.")
+
+    if symbols is None or len(symbols) == 0:
+        parser.error(
+            "You need to select at least one symbol to subscribe to. Ex: BTCUSDT"
+        )
+
+    if exchanges is None or len(exchanges) == 0:
+        parser.error("You need to select at least one exchange to connect to.")
+
+    if len(exchanges) > 5:
+        parser.error("only 5 simultaneous exchanges can be ran at the same time")
+
+    asyncio.run(run(exchanges))

@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+function process_pcap
+{
+
+    ROOT_DIR=$(dirname $NEXT_FILE)
+    FILE_NAME=$(basename $NEXT_FILE)
+    FOLDER_NAME=$(basename $ROOT_DIR)
+    HANDSHAKE_FILE=$ROOT_DIR/$HS_FILE
+
+    HS_STRING="tls.handshake or http.upgrade"
+    WS_STRING="(websocket.payload.text and not websocket.masked_payload and not (websocket.payload.pong or websocket.payload.ping))"
+    TARGET_FILE=$ROOT_DIR/processed/$FILE_NAME
+    if [ -f $TARGET_FILE ]; then
+      echo "Skipping $TARGET_FILE... File exist."
+    else
+      export SSHKEYLOGFILE=$ROOT_DIR/capture.keys
+
+      if [ -f $HANDSHAKE_FILE ]; then
+        # IP_ADDR=$(tshark -r $NEXT_FILE -Y '_ws.col.info == "Client Hello (SNI=stream.bybit.com)"' -T fields -e ip.dst)
+        echo "Checking handshake packets in the capture file..."
+        # Write handshake data if any
+        tshark -r $NEXT_FILE -Y "$HS_STRING" -w $TMP_HS_FILE1
+        mergecap -a $HANDSHAKE_FILE $TMP_HS_FILE1 -w $TMP_HS_FILE2
+        mv $TMP_HS_FILE2 $HANDSHAKE_FILE
+        rm $TMP_HS_FILE1
+      else
+        echo "Creating first handshake file..."
+        tshark -r $NEXT_FILE -Y "$HS_STRING" -w $HANDSHAKE_FILE
+      fi
+      echo "Writing payload data to $TARGET_FILE"
+      # write payload data if any
+      mkdir -p $ROOT_DIR/processed
+      mergecap $HANDSHAKE_FILE $NEXT_FILE -w $TARGET_FILE
+      # tshark -r $TMP_HS_FILE1 -Y "$HS_STRING or $WS_STRING or tls.record.content_type == 23" -w $TARGET_FILE
+      # rm $TMP_HS_FILE1
+    fi
+}
+
+function process_last {
+  trap - SIGHUP SIGINT SIGTERM SIGQUIT
+  echo "Processing last pcap file"
+  process_pcap
+  echo "Watcher interrupted... processing pcap files: done."
+  kill -- -$$
+  exit 1
+}
+
+trap cleanup SIGHUP SIGINT SIGTERM SIGQUIT
+TARGET_DIR=$HOME/.local/share/cryptoex/pcap-files/BybitLive
+HS_FILE=handshake.pcap
+TMP_HS_FILE1=/tmp/$HS_FILE
+TMP_HS_FILE2=/tmp/hsfile.pcap
+
+if ! command -v inotifywait 2>&1 >/dev/null
+then
+    echo "Missing inotify-tools software. Please contact your administrator."
+    exit 1
+fi
+
+unset NO_ARGS
+while getopts ":m" option; do
+   case $option in
+      m)
+        echo "Starting monitoring $TARGET_DIR:"
+        inotifywait -m $TARGET_DIR -e create --include "capture_.*.pcap$" --format %w%f |
+          while read -r file;
+          do
+            if [ -z ${NEXT_FILE+x} ]; then
+              echo "Processing first capture file..."
+              NEXT_FILE=$file;
+            else
+              process_pcap
+              NEXT_FILE=$file
+            fi
+          done
+        exit;;
+     \?)
+         echo "Invalid option"
+         exit;;
+   esac
+   NO_ARGS=1
+ done
+
+
+if [ -z "$NO_ARGS" ]; then
+ for NEXT_FILE in $(ls $TARGET_DIR/capture_* | sort);
+ do
+   process_pcap
+ done
+fi
+
+# vim: ft=sh

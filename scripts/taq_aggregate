@@ -1,0 +1,181 @@
+#!/usr/bin/env python
+"""File watcher that aggregates trades and quotes data for each exchange
+
+No transformations are made to the data.
+"""
+
+import os
+import time
+import json
+import logging
+import argparse
+
+from pathlib import Path
+from datetime import datetime as dt
+from datetime import timedelta
+from joblib import delayed, Parallel
+
+from cryptoex import settings
+from cryptoex.exchanges import available_exchanges
+
+TODAY = dt.today().strftime("%Y-%m-%d")
+
+
+logger = logging.getLogger(__name__)
+
+parser = argparse.ArgumentParser()
+
+
+available = {k.__qualname__: k for k in available_exchanges}
+
+
+parser.add_argument(
+    "-w",
+    "--watcher",
+    action="store_true",
+    help="Start the file watcher instead of a one time processing",
+)
+
+parser.add_argument(
+    "-dt", "--date", help="The date where the desired data is to be aggregated"
+)
+
+parser.add_argument(
+    "-e",
+    "--exchange",
+    action="append",
+    choices=available.keys(),
+    help="The exchange you want to target",
+)
+
+parser.add_argument(
+    "-ttw",
+    "--time-to-wait",
+    default=3600,
+    type=int,
+    help="Number of seconds to wait until the next check. Default:1h",
+)
+
+parser.add_argument(
+    "-sam",
+    "--start-at-minute",
+    default=30,
+    type=int,
+    help="Minute of the hour where we need to check, ranges between 0 and 60",
+)
+
+
+def update_file(exchange, day):
+    quotes_path = os.path.join(settings.STREAM_DIR, exchange.name, day, "QUOTES")
+    trades_path = os.path.join(settings.STREAM_DIR, exchange.name, day, "TRADES")
+
+    quotes_proc_path = os.path.join(quotes_path, "processed")
+    trades_proc_path = os.path.join(trades_path, "processed")
+
+    quotes_meta_path = os.path.join(quotes_proc_path, "metadata")
+    trades_meta_path = os.path.join(trades_proc_path, "metadata")
+    quotes_raw_path = os.path.join(quotes_path, "raw")
+    trades_raw_path = os.path.join(trades_path, "raw")
+
+    Path(trades_proc_path).mkdir(parents=True, exist_ok=True)
+    Path(quotes_proc_path).mkdir(parents=True, exist_ok=True)
+
+    Path(trades_meta_path).mkdir(parents=True, exist_ok=True)
+    Path(quotes_meta_path).mkdir(parents=True, exist_ok=True)
+
+    Path(trades_raw_path).mkdir(parents=True, exist_ok=True)
+    Path(quotes_raw_path).mkdir(parents=True, exist_ok=True)
+    processed = False
+    logger.info("Processing quotes starting")
+    for quotes_file in os.listdir(quotes_path):
+        quotes_file_path = os.path.join(quotes_path, quotes_file)
+        snapshot_file = quotes_file.replace(".txt", "-snapshots.txt")
+        snapshot_file_path = os.path.join(quotes_path, snapshot_file)
+        if os.path.isfile(quotes_file_path):
+            write_snapshot_file(exchange, quotes_file_path, snapshot_file_path)
+            processed = True
+            target_quotes_file = snapshot_file.replace("txt", "feahter")
+            logger.info(f"Processing {snapshot_file}")
+            quotes, meta = exchange.formatter.aggregate_quotes(snapshot_file_path)
+            quotes.to_feather(os.path.join(quotes_proc_path, target_quotes_file))
+            meta.to_feather(os.path.join(quotes_meta_path, target_quotes_file))
+            Path(quotes_file_path).rename(os.path.join(quotes_raw_path, quotes_file))
+            Path(snapshot_file_path).rename(os.path.join(quotes_raw_path, snapshot_file))
+    if not processed:
+        logger.warning("No quotes files found ! is the data download running?")
+
+    processed = False
+    logger.info("Processing trades starting")
+    for trade_file in os.listdir(trades_path):
+        trade_file_path = os.path.join(trades_path, trade_file)
+        if os.path.isfile(trade_file_path):
+            processed = True
+            target_trade_file = trade_file.replace("txt", "feahter")
+            logger.info(f"Processing {trade_file}")
+            trades, meta = exchange.formatter.aggregate_trades(trade_file_path)
+            trades.to_feather(os.path.join(trades_proc_path, target_trade_file))
+            meta.to_feather(os.path.join(trades_meta_path, target_trade_file))
+
+            Path(trade_file_path).rename(os.path.join(trades_raw_path, trade_file))
+
+    if not processed:
+        logger.warning("No trades files found ! is the data download running?")
+
+
+def write_snapshot_file(
+    exchange, quotes_file_path: str, snapshot_file_path: str
+) -> None:
+
+    with (
+        open(quotes_file_path, "r") as input_file,
+        open(snapshot_file_path, "w") as output_file,
+    ):
+        for line in input_file:
+            output_file.write(
+                json.dumps(exchange.handle_orderbook_delta(json.loads(line)))
+            )
+            output_file.write("\n")
+
+
+if __name__ == "__main__":
+
+    args = parser.parse_args()
+    exchanges = args.exchange
+
+    if exchanges is None or len(exchanges) == 0:
+        parser.error("No exchange selected.")
+
+    logger.info("Starting data aggregation script.")
+    n_jobs = min(len(exchanges), 10)
+    if not args.watcher:
+        if not args.date:
+            parser.error("A date must be chosen in a non watcher mode")
+        logger.info("Processing previous downloads")
+        Parallel(n_jobs=n_jobs)(
+            delayed(update_file)(available[exchange](), args.date)
+            for exchange in exchanges
+        )
+    else:
+        logger.info(
+            f"Initiating file watcher: time to wait= {args.time_to_wait}s,"
+            f"reference minute={args.start_at_minute}"
+        )
+        datetime = dt.today()
+        time_to_start = (args.start_at_minute - datetime.minute) * 60
+        if time_to_start < 0:
+            time_to_wait = args.time_to_wait + time_to_start
+            time_to_start = 0
+        logger.info(f"Waiting for {timedelta(seconds=time_to_start)}")
+        time.sleep(time_to_start)
+
+    while args.watcher:
+        datetime = dt.today()
+        day = str(datetime.date())
+
+        Parallel(n_jobs=n_jobs)(
+            delayed(update_file)(available[exchange](), day) for exchange in exchanges
+        )
+        waiting_time = timedelta(seconds=time_to_wait)
+        next_time = (datetime + waiting_time).strftime(format="%Y-%m-%d %H:%M")
+        logger.warning(f"Next check at {next_time} -- in {waiting_time}")
+        time.sleep(time_to_wait)

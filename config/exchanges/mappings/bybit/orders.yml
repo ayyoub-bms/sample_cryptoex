@@ -1,0 +1,441 @@
+orders:
+  CREATE_ORDER :
+
+    required:
+      - category
+      - symbol
+      - side
+      - order_type
+      - quantity
+
+    inputs:
+      category: category
+      symbol: symbol
+      side: side
+      order_type: orderType
+      quantity: qty
+      smp_type: smpType
+      tp_trigger_by: tpTriggerBy
+      sl_trigger_by: slTriggerBy
+      reduce_only: reduceOnly
+      close_on_trigger: closeOnTrigger
+      tpsl_mode: tpslMode
+      mmp: mmp
+      take_profit: takeProfit
+      tp_limit_price: tpLimitPrice
+      sl_limit_price: slLimitPrice
+      tp_order_type: tpOrderType
+      stop_loss: stopLoss
+      time_in_force: timeInForce
+      order_link_id: orderLinkId
+      position_idx: positionIdx
+      order_iv: orderIv
+      trigger_by: triggerBy
+      trigger_price: triggerPrice
+      order_details: orderFilter
+      trigger_direction: triggerDirection
+      price: price
+      slippage_tolerance: slippageTolerance
+      slippage_tolerance_type: slippageToleranceType
+      market_unit: marketUnit
+      is_leverage: isLeverage
+      sl_order_type: slOrderType
+
+    outputs:
+      orderId: order_id
+      orderLinkId: order_link_id
+
+  AMEND_ORDER :
+
+    required:
+      - category
+      - symbol
+
+    inputs:
+      category: category
+      symbol: symbol
+      order_id: orderId
+      order_link_id: orderLinkId
+      order_iv: orderIv
+      trigger_price: triggerPrice
+      quantity: qty
+      price: price
+      tpsl_mode: tpslMode
+      take_profit: takeProfit
+      stop_loss: stopLoss
+      tp_trigger_by: tpTriggerBy
+      sl_trigger_by: slTriggerBy
+      trigger_by: triggerBy
+      tp_limit_price: tpLimitPrice
+      sl_limit_price: slLimitPrice
+
+    outputs:
+      orderId: order_id
+      orderLinkId: order_link_id
+
+  CANCEL_ORDER :
+
+    required:
+      - category 
+      - symbol
+
+    inputs:
+      category: category
+      symbol: symbol
+      order_id: orderId
+      order_link_id: orderLinkId
+      order_details: orderFilter
+
+    outputs:
+      orderId: order_id
+      orderLinkId: order_link_id
+
+  CANCEL_ALL_ORDERS :
+
+    required:
+      - category 
+
+    inputs:
+      category: category
+      symbol: symbol
+      base_coin: baseCoin
+      settle_coin: settleCoin
+      order_details: orderFilter
+      stop_order_type: stopOrderType
+
+    outputs:
+      list: orders
+      orderId: order_id
+      orderLinkId: order_link_id
+      success: success
+
+  BATCH_CREATE :
+
+    required:
+      - category
+      - symbol
+      - request
+      - side
+      - orderType
+      - quantity
+
+    inputs:
+      category: category
+      symbol: symbol
+      request: request
+      side: side
+      order_type: orderType
+      quantity: qty
+      smp_type: smpType
+      sl_trigger_by: slTriggerBy
+      reduce_only: reduceOnly
+      close_on_trigger: closeOnTrigger
+      tp_limit_price: tpLimitPrice
+      mmp: mmp
+      tpsl_mode: tpslMode
+      stop_loss: stopLoss
+      sl_limit_price: slLimitPrice
+      tp_order_type: tpOrderType
+      tp_trigger_by: tpTriggerBy
+      position_idx: positionIdx
+      take_profit: takeProfit
+      order_link_id: orderLinkId
+      time_in_force: timeInForce
+      order_iv: orderIv
+      trigger_by: triggerBy
+      trigger_price: triggerPrice
+      order_details: orderFilter
+      trigger_direction: triggerDirection
+      price: price
+      market_unit: marketUnit
+      is_leverage: isLeverage
+      sl_order_type: slOrderType
+
+    outputs:
+      result: result
+      list: orders
+      category: category
+      symbol: symbol
+      orderId: order_id
+      orderLinkId: order_link_id
+      createAt: create_at
+      retExtInfo: ret_ext_info
+      code: code
+      msg: msg
+
+  BATCH_AMEND :
+    required:
+      - category 
+      - symbol
+      - request
+    inputs:
+      category: category
+      symbol: symbol
+      request: request
+      take_profit: takeProfit
+      tp_limit_price: tpLimitPrice
+      trigger_by: triggerBy
+      sl_trigger_by: slTriggerBy
+      tp_trigger_by: tpTriggerBy
+      stop_loss: stopLoss
+      price: price
+      tpsl_mode: tpslMode
+      quantity: qty
+      trigger_price: triggerPrice
+      order_iv: orderIv
+      order_link_id: orderLinkId
+      order_id: orderId
+      sl_limit_price: slLimitPrice
+    outputs:
+      result: result
+      list: orders
+      category: category
+      symbol: symbol
+      orderId: order_id
+      orderLinkId: order_link_id
+      retExtInfo: ret_ext_info
+      code: code
+      msg: msg
+
+  BATCH_CANCEL :
+
+    required:
+      - category 
+      - symbol
+      - request
+
+    inputs:
+      category: category
+      request: request
+      symbol: symbol
+      order_id: orderId
+      order_link_id: orderLinkId
+
+    outputs:
+      result: result
+      list: orders
+      category: category
+      symbol: symbol
+      orderId: order_id
+      orderLinkId: order_link_id
+      retExtInfo: ret_ext_info
+      code: code
+      msg: msg
+
+  STOPLOSS :
+
+    required:
+      - category
+      - symbol
+      - distance
+      - mode
+      - quantity
+      - order_type
+      - trigger_price
+      - pos_mode
+
+    inputs:
+      category: category
+      symbol: symbol
+      distance: stopLoss
+      trigger_by: slTriggerBy
+      mode: tpslMode
+      quantity: slSize
+      limit_price: slLimitPrice
+      order_type: slOrderType
+      position_mode: positionIdx
+
+  TAKEPROFIT :
+
+    required:
+      - category
+      - symbol
+      - price
+      - mode
+      - quantity
+      - trigger_by  # last mark index price
+      - order_type
+      - trigger_price
+      - position_mode
+
+    inputs:
+      category: category
+      symbol: symbol
+      price: takeProfit
+      trigger_by: tpTriggerBy
+      mode: tpslMode
+      quantity: tpSize
+      limit_price: tpLimitPrice
+      order_type: tpOrderType
+      position_mode: positionIdx
+
+  TRAILINGSTOP:
+
+    required:
+      - category
+      - symbol
+      - price  # The stop price
+      - trigger_price
+      - position_mode
+
+    inputs:
+      category: category
+      symbol: symbol
+      distance: trailingStop
+      trigger_price: activePrice
+      position_mode: positionIdx
+
+  execution: 
+
+    outputs:
+      id: id
+      topic: topic
+      creationTime: creation_time
+      data: data
+      category: category
+      symbol: symbol
+      isLeverage: is_leverage
+      orderId: order_id
+      orderLinkId: order_link_id
+      side: side
+      orderPrice: order_price
+      orderQty: order_quantity
+      leavesQty: leaves_quantity
+      createType: create_type
+      orderType: order_type
+      stopOrderType: stop_order_type
+      execFee: exec_fee
+      execId: exec_id
+      execPrice: exec_price
+      execQty: exec_quantity
+      execPnl: exec_pnl
+      execType: exec_type
+      execValue: exec_value
+      execTime: exec_time
+      isMaker: is_maker
+      feeRate: fee_rate
+      tradeIv: trade_iv
+      markIv: mark_iv
+      markPrice: mark_price
+      indexPrice: index_price
+      underlyingPrice: underlying_price
+      blockTradeId: block_trade_id
+      closedSize: closed_size
+      seq: seq
+
+  execution_fast: 
+
+    outputs:
+      topic: topic
+      creationTime: creation_time
+      data: data
+      category: category
+      symbol: symbol
+      orderId: order_id
+      isMaker: is_maker
+      orderLinkId: order_link_id
+      execId: exec_id
+      execPrice: exec_price
+      execQty: exec_quantity
+      side: side
+      execTime: exec_time
+      seq: seq
+
+  orders: 
+
+    outputs:
+      id: id
+      topic: topic
+      creationTime: creation_time
+      data: data
+      category: category
+      orderId: order_id
+      orderLinkId: order_link_id
+      isLeverage: is_leverage
+      blockTradeId: block_trade_id
+      symbol: symbol
+      price: price
+      qty: quantity
+      side: side
+      positionIdx: position_idx
+      orderStatus: order_status
+      createType: create_type
+      cancelType: cancel_type
+      rejectReason: reject_reason
+      avgPrice: avg_price
+      leavesQty: leaves_quantity
+      leavesValue: leaves_value
+      cumExecQty: cum_exec_quantity
+      cumExecValue: cum_exec_value
+      cumExecFee: cum_exec_fee
+      closedPnl: closed_pnl
+      feeCurrency: fee_currency
+      timeInForce: time_in_force
+      orderType: order_type
+      stopOrderType: stop_order_type
+      ocoTriggerBy: oco_trigger_by
+      orderIv: order_iv
+      marketUnit: market_unit
+      slippageToleranceType: slippage_tolerance_type
+      slippageTolerance: slippage_tolerance
+      triggerPrice: trigger_price
+      takeProfit: take_profit
+      stopLoss: stop_loss
+      tpslMode: tpsl_mode
+      tpLimitPrice: tp_limit_price
+      slLimitPrice: sl_limit_price
+      tpTriggerBy: tp_trigger_by
+      slTriggerBy: sl_trigger_by
+      triggerDirection: trigger_direction
+      triggerBy: trigger_by
+      lastPriceOnCreated: last_price_on_created
+      reduceOnly: reduce_only
+      closeOnTrigger: close_on_trigger
+      placeType: place_type
+      smpType: smp_type
+      smpGroup: smp_group
+      smpOrderId: smp_order_id
+      createdTime: created_time
+      updatedTime: updated_time
+
+  wallet: 
+
+    outputs:
+      id: id
+      topic: topic
+      creationTime: creation_time
+      data: data
+      accountType: account_type
+      accountLTV: account_ltv
+      accountIMRate: initial_margin_rate
+      accountMMRate: maintenance_margin_rate
+      totalEquity: total_equity
+      totalWalletBalance: wallet_balance
+      totalMarginBalance: margin_balance
+      totalAvailableBalance: available_balance
+      totalPerpUPL: perp_upl
+      totalInitialMargin: initial_margin
+      totalMaintenanceMargin: maintenance_margin
+      coin: coin
+      equity: equity
+      usdValue: usd_value
+      walletBalance: wallet_balance
+      free: free_balance
+      locked: locked_balance  # locked balance due to open orders
+      spotHedgingQty: spot_hedging_quantity
+      borrowAmount: borrow_amount
+      availableToBorrow: available_to_borrow
+      availableToWithdraw: available_to_withdraw
+      accruedInterest: accrued_interest
+      totalOrderIM: order_im
+      totalPositionIM: position_im
+      totalPositionMM: position_mm
+      unrealisedPnl: unrealised_pnl
+      cumRealisedPnl: cum_realised_pnl
+      bonus: bonus
+      collateralSwitch: collateral_switch
+      marginCollateral: margin_collateral
+
+
+
+

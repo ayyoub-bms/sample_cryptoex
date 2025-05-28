@@ -1,0 +1,10 @@
+fees:
+
+  TRADING_FEES :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:

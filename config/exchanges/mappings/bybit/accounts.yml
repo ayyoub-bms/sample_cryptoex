@@ -1,0 +1,66 @@
+accounts:
+
+  WALLET :
+
+    defaults:
+      account_type : UNIFIED
+
+    required:
+      - account_type
+
+    inputs:
+      account_type: accountType
+      coin: coin
+
+    outputs:
+      list: wallets
+      accountType: account_type
+      accountLTV: account_ltv
+      accountIMRate: initial_margin_rate
+      accountMMRate: maintenance_margin_rate
+      totalEquity: total_equity
+      totalWalletBalance: wallet_balance
+      totalMarginBalance: margin_balance
+      totalAvailableBalance: available_balance
+      totalPerpUPL: perp_upl
+      totalInitialMargin: initial_margin
+      totalMaintenanceMargin: maintenance_margin
+      coin: coins
+      usdValue: usd_value
+      walletBalance: coin_balance
+      free: free_balance
+      locked: locked_balance  # locked balance due to open orders
+      spotHedgingQty: spot_hedging_quantity
+      borrowAmount: borrow_amount
+      availableToWithdraw: available_to_withdraw
+      accruedInterest: accrued_interest
+      totalOrderIM: order_im
+      totalPositionIM: position_im
+      totalPositionMM: position_mm
+      unrealisedPnl: unrealised_pnl
+      cumRealisedPnl: cumulative_realised_pnl
+      bonus: bonus
+      marginCollateral: margin_collateral
+      collateralSwitch: collateral_switch
+      availableToBorrow: available_to_borrow
+
+  WITHDRAWALS :
+
+    inputs:
+      coin_name: coinName
+
+    outputs:
+      availableWithdrawal: available_withdrawal
+      availableWithdrawalMap: available_withdrawal_map
+
+  ACCOUNT :
+
+    outputs:
+      unifiedMarginStatus: unified_margin_status
+      marginMode: margin_mode
+      isMasterTrader: is_master_trader
+      spotHedgingStatus: spot_hedging_status
+      updatedTime: updated_time
+      dcpStatus: dcp_status
+      timeWindow: time_window
+      smpGroup: smp_group

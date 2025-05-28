@@ -1,0 +1,49 @@
+markets:
+
+  CANDLESTICKS :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  ORDERBOOK :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  PRICE_SNAPSHOTS :
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+      linear:
+      inverse:
+      spot:
+      option:
+
+  COINS :
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  # All the config below is for callbacks of websocket stream
+  orderbook: 
+    outputs:
+  
+  trades: 
+    outputs:
+
+  candlesticks: 
+    outputs:

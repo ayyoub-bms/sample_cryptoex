@@ -1,0 +1,19 @@
+fees:
+
+  TRADING_FEES :
+
+    required:
+      - category
+
+    inputs:
+      category: category
+      symbol: symbol
+      base_coin: baseCoin
+
+    outputs:
+      category: category
+      list: fees
+      symbol: symbol
+      baseCoin: base_coin
+      takerFeeRate: taker_fee_rate
+      makerFeeRate: maker_fee_rate

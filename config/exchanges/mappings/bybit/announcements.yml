@@ -1,0 +1,42 @@
+announcements:
+
+  ANNOUNCEMENTS :
+
+    defaults:
+      locale: en-US
+
+    required:
+      - locale
+
+    filters:
+      - new_crypto
+      - delistings
+      - product_updates
+      - maintenance_updates
+      - new_fiat_listings
+
+    inputs:
+      locale: locale
+      type: type
+      tag: tag
+      page: page
+      limit: limit
+
+    outputs:
+      total: total
+      list: announcements
+      title: title
+      description: description
+      type: type
+      key: key
+      tags: tags
+      url: url
+      dateTimestamp: date_ts
+      startDateTimestamp: start_date_ts
+      endDateTimestamp: end_date_ts
+      publishTime: publish_time
+
+
+        
+    
+

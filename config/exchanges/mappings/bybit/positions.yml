@@ -1,0 +1,110 @@
+positions:
+  POSITIONS :
+
+    required:
+      - category
+
+    inputs:
+      category: category
+      symbol: symbol
+      base_coin: baseCoin
+      settle_coin: settleCoin
+      limit: limit
+      cursor: cursor
+
+    outputs:
+      category: category
+      nextPageCursor: next_page_cursor
+      list: positions
+      positionIdx: position_idx
+      riskId: risk_id
+      riskLimitValue: risk_limit_value
+      symbol: symbol
+      side: side
+      size: size
+      avgPrice: avg_price
+      positionValue: position_value
+      tradeMode: trade_mode
+      autoAddMargin: auto_add_margin
+      positionStatus: position_status
+      leverage: leverage
+      markPrice: mark_price
+      liqPrice: liq_price
+      bustPrice: bust_price
+      positionIM: position_im
+      positionMM: position_mm
+      positionBalance: position_balance
+      takeProfit: take_profit
+      stopLoss: stop_loss
+      trailingStop: trailing_stop
+      sessionAvgPrice: session_avg_price
+      delta: delta
+      gamma: gamma
+      vega: vega
+      theta: theta
+      unrealisedPnl: unrealised_pnl
+      curRealisedPnl: cur_realised_pnl
+      cumRealisedPnl: cum_realised_pnl
+      adlRankIndicator: adl_rank_indicator
+      createdTime: created_time
+      updatedTime: updated_time
+      seq: seq
+      isReduceOnly: is_reduce_only
+      mmrSysUpdatedTime: mmr_sys_updated_time
+      leverageSysUpdatedTime: leverage_sys_updated_time
+      tpslMode: tpsl_mode
+
+  position:   # For WEBSOCKET STREAMS
+    id: id
+    topic: topic
+    creationTime: creation_time
+    data: data
+    category: category
+    symbol: symbol
+    side: side
+    size: size
+    positionIdx: position_idx
+    tradeMode: trade_mode
+    positionValue: position_value
+    riskId: risk_id
+    riskLimitValue: risk_limit_value
+    entryPrice: entry_price
+    markPrice: mark_price
+    leverage: leverage
+    positionBalance: position_balance
+    autoAddMargin: auto_add_margin
+    positionIM: position_im
+    positionMM: position_mm
+    liqPrice: liq_price
+    bustPrice: bust_price
+    tpslMode: tpsl_mode
+    takeProfit: take_profit
+    stopLoss: stop_loss
+    trailingStop: trailing_stop
+    unrealisedPnl: unrealised_pnl
+    curRealisedPnl: cur_realised_pnl
+    sessionAvgPrice: session_avg_price
+    delta: delta
+    gamma: gamma
+    vega: vega
+    theta: theta
+    cumRealisedPnl: cum_realised_pnl
+    positionStatus: position_status
+    adlRankIndicator: adl_rank_indicator
+    isReduceOnly: is_reduce_only
+    mmrSysUpdatedTime: mmr_sys_updated_time
+    leverageSysUpdatedTime: leverage_sys_updated_time
+    createdTime: created_time
+    updatedTime: updated_time
+    seq: seq
+
+  greeks: 
+    id: id
+    topic: topic
+    creationTime: creation_time
+    data: data
+    baseCoin: base_coin
+    totalDelta: delta
+    totalGamma: gamma
+    totalVega: vega
+    totalTheta: theta

@@ -1,0 +1,264 @@
+markets:
+
+  CANDLESTICKS :
+
+    # default parameters to pass to the methods
+    defaults:
+      category: spot
+    # mandatory keyword arguments to the methods
+
+    required:
+      - symbol
+      - bar_size
+
+    # converts what we should send to the exchange to a the exchange specific fields.
+    inputs:
+      symbol: symbol
+      bar_size: interval
+      category: category
+      start: start
+      end: end
+      limit: limit
+
+    # converts what we receive from the exchange to a unique naming across all exchanges
+    outputs:
+      category: category
+      symbol: symbol
+      list: bars
+      list.0: time
+      list.1: open
+      list.2: high
+      list.3: low
+      list.4: close
+      list.5: volume
+      list.6: turnover
+
+  ORDERBOOK :
+
+    defaults:
+      category: spot
+
+    required:
+      - category
+      - symbol
+
+    inputs:
+      category: category
+      symbol: symbol
+      limit: limit
+
+    outputs:
+      s: symbol
+      b: bids
+      b.0: price
+      b.1: volume
+      a: asks
+      a.0: price
+      a.1: volume
+      ts: system_timestamp
+      u: update_id
+      seq: seq_number
+      cts: engine_timestamp
+
+  PRICE_SNAPSHOTS :
+
+    defaults:
+      category: spot
+
+    required:
+      - category
+
+    cond_required:
+      option: 
+        - base_coin or symbol
+
+    inputs:
+      category: category
+      symbol: symbol
+      base_coin: baseCoin
+      exp_date: expDate
+
+    outputs:
+      linear: 
+          category: category
+          list: tickers
+          symbol: symbol
+          lastPrice: last_price
+          indexPrice: index_price
+          markPrice: mark_price
+          prevPrice24h: prev_price24h
+          price24hPcnt: price24h_pct
+          highPrice24h: high_price24h
+          lowPrice24h: low_price24h
+          prevPrice1h: prev_price1h
+          openInterest: open_interest
+          openInterestValue: open_interest_value
+          turnover24h: turnover24h
+          volume24h: volume24h
+          fundingRate: funding_rate
+          nextFundingTime: next_funding_time
+          predictedDeliveryPrice: predicted_delivery_price
+          basisRate: basis_rate
+          basis: basis
+          deliveryFeeRate: delivery_fee_rate
+          deliveryTime: delivery_time
+          ask1Size: best_ask_size
+          bid1Price: best_bid_price
+          ask1Price: best_ask_price
+          bid1Size: best_bid_size
+          preOpenPrice: pre_open_price
+          preQty: pre_quantity
+          curPreListingPhase: cur_prelisting_phase
+      inverse: 
+          category: category
+          list: tickers
+          symbol: symbol
+          lastPrice: last_price
+          indexPrice: index_price
+          markPrice: mark_price
+          prevPrice24h: prev_price24h
+          price24hPcnt: price24h_pct
+          highPrice24h: high_price24h
+          lowPrice24h: low_price24h
+          prevPrice1h: prev_price1h
+          openInterest: open_interest
+          openInterestValue: open_interest_value
+          turnover24h: turnover24h
+          volume24h: volume24h
+          fundingRate: funding_rate
+          nextFundingTime: next_funding_time
+          predictedDeliveryPrice: predicted_delivery_price
+          basisRate: basis_rate
+          basis: basis
+          deliveryFeeRate: delivery_fee_rate
+          deliveryTime: delivery_time
+          ask1Size: best_ask_size
+          bid1Price: best_bid_price
+          ask1Price: best_ask_price
+          bid1Size: best_bid_size
+          preOpenPrice: pre_open_price
+          preQty: pre_quantity
+          curPreListingPhase: cur_prelisting_phase
+      option: 
+          category: category
+          list: tickers
+          symbol: symbol
+          bid1Price: best_bid_price
+          bid1Size: best_bid_size
+          bid1Iv: best_bid_iv
+          ask1Price: best_ask_price
+          ask1Size: best_ask_size
+          ask1Iv: best_ask_iv
+          lastPrice: last_price
+          highPrice24h: high_price24h
+          lowPrice24h: low_price24h
+          markPrice: mark_price
+          indexPrice: index_price
+          markIv: mark_iv
+          underlyingPrice: underlying_price
+          openInterest: open_interest
+          turnover24h: turnover24h
+          volume24h: volume24h
+          totalVolume: total_volume
+          totalTurnover: total_turnover
+          delta: delta
+          gamma: gamma
+          vega: vega
+          theta: theta
+          predictedDeliveryPrice: predicted_delivery_price
+          change24h: change24h
+      spot: 
+          category: category
+          list: tickers
+          symbol: symbol
+          bid1Price: best_bid_price
+          bid1Size: best_bid_size
+          ask1Price: best_ask_price
+          ask1Size: best_ask_size
+          lastPrice: last_price
+          prevPrice24h: prev_price24h
+          price24hPcnt: price24h_pct
+          highPrice24h: high_price24h
+          lowPrice24h: low_price24h
+          turnover24h: turnover24h
+          volume24h: volume24h
+          usdIndexPrice: usd_index_price
+
+  COINS :
+
+    outputs:
+      rows: coins
+      name: name
+      coin: coin
+      remainAmount: remain_amount
+      chains: chains
+      chain: chain
+      chainType: chain_type
+      confirmation: confirmation
+      withdrawFee: withdraw_fee
+      depositMin: minimum_deposit
+      withdrawMin: minimum_withdrawal
+      minAccuracy: minimum_accuracy
+      chainDeposit: chain_deposit
+      chainWithdraw: chain_withdraw
+      withdrawPercentageFee: withdraw_percentage_fee
+      contractAddress: contract_address
+
+  orderbook: 
+
+    outputs:
+      topic: topic
+      type: type
+      ts: timestamp
+      data: data
+      s: symbol
+      b: bids
+      b.0: price
+      b.1: volume
+      a: asks
+      a.0: price
+      a.1: volume
+      u: update_id
+      seq: seq_number
+      cts: engine_timestamp
+  
+  trades: 
+
+    outputs:
+      id: message_id
+      topic: topic
+      type: type
+      ts: timestamp
+      data: data
+      T: engine_timestamp
+      s: symbol
+      S: side
+      v: volume
+      p: price
+      L: price_direction
+      i: trade_id
+      BT: is_block_trade
+      RPI: is_rpi_trade
+      mP: mark_price
+      iP: index_price
+      mIv: mark_iv
+      iv: iv
+  
+  candlesticks: 
+
+    outputs:
+      topic: topic
+      type: type
+      ts: ts
+      data: data
+      start: start
+      end: end
+      interval: interval
+      open: open
+      close: close
+      high: high
+      low: low
+      volume: volume
+      turnover: turnover
+      confirm: confirm
+      timestamp: timestamp

@@ -1,0 +1,71 @@
+http_limits:
+  # Limit in term of number of requests per second
+  # Where we are dealing with defaults, for VIP
+  # check https://bybit-exchange.github.io/docs/v5/rate-limit
+  global:
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  WALLET : 50
+  WITHDRAWALS : 50
+  TRADING_FEES :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  ACCOUNT : 50
+  POSITIONS : 50
+  INSTRUMENTS : 5  # unknown
+  CANDLESTICKS : 5  # unknown
+  ORDERBOOK : 5  # unknown
+  PRICE_SNAPSHOTS : 5  # unknown
+  CREATE_ORDER :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  AMEND_ORDER :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 10
+  CANCEL_ORDER :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  OPEN_ORDERS : 50
+  CANCEL_ALL_ORDERS :
+    linear: 10
+    inverse: 10
+    options: 1
+    spot: 20
+  BATCH_CREATE :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  BATCH_AMEND :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  BATCH_CANCEL :
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  ORDER_HISTORY : 50
+  SET_TRADING_STOP :  # unknown
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  TRAILINGSTOP :  # unknown
+    linear: 10
+    inverse: 10
+    options: 10
+    spot: 20
+  COINS : 5
+  SERVER_TIME : 5  # unknown

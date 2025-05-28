@@ -1,0 +1,16 @@
+positions:
+  POSITIONS :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  # For WEBSOCKET STREAMS
+  position:
+    outputs:
+
+  greeks: 
+    outputs:

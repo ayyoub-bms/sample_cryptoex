@@ -1,0 +1,28 @@
+accounts:
+
+  WALLET :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  WITHDRAWALS :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
+
+  ACCOUNT :
+
+    defaults:
+    required:
+    cond_required:
+    filters:
+    inputs:
+    outputs:
